@@ -6,6 +6,7 @@ from keras.layers import Input, Dense, Flatten, Dropout, Activation
 
 import transformers
 from transformers import BertTokenizer, TFBertModel
+tf.get_logger().setLevel('ERROR')
 # suppress tokenizer sentences' length warnings
 transformers.logging.set_verbosity_error()
 

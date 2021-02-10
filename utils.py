@@ -1,8 +1,10 @@
 import random
 import pandas as pd
 import numpy as np
-
+import transformers
 import tensorflow as tf
+tf.get_logger().setLevel('ERROR')
+transformers.logging.set_verbosity_error() # suppress tokenizer sentences' length warnings
 
 SEQUENCE_LIMIT = 512
 STRIDE = 256
@@ -87,8 +89,7 @@ def from_df_to_model_dict(df, context_dict, tokenizer, verbose=False):
 
     for i, (_, row) in enumerate(df.iterrows()):
         # print progress
-        if (i+1) % (max_iter // 100) == 0 or i == 0:
-            print_progress(i+1, max_iter)
+        print_progress(i+1, max_iter)
 
         # encode question and context
         if verbose:
@@ -200,13 +201,10 @@ def create_output_dict(test, test_context_dict, tokenizer, pred_start_ids, pred_
     for i, input_ids in enumerate(test['input_ids']):
         # Extract variables
         question_id = test['question_id'][i]
-        question_text = test["question_text"][i]
         context = test_context_dict[test["context_id"][i]]
         pred_start = pred_start_ids[i]
         pred_end = pred_end_ids[i]
 
-        # Extract answers
-        true_answer = test['answer_text'][i]
         predicted_answer = get_text_from_token_ids(
             input_ids, tokenizer, pred_start, pred_end)
 

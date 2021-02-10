@@ -1,6 +1,10 @@
 #!/usr/bin/python
-
+import transformers
 from transformers import BertTokenizer
+import tensorflow as tf
+tf.get_logger().setLevel('ERROR')
+transformers.logging.set_verbosity_error() # suppress tokenizer sentences' length warnings
+
 import numpy as np
 import pandas as pd
 from utils import create_output_dict, preprocess_df, print_squad_sample, from_df_to_model_dict
@@ -29,6 +33,11 @@ tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 print(df.head())
 print_squad_sample(df, context_dict)
 
+print("\n\n")
+print("#"*20)
+print("Building model input")
+print("#"*20)
+print()
 '''
 We load the model and we pass to it the input in the expected format
 From the output we build the json output file
@@ -40,7 +49,11 @@ Output:
 
 
 test = from_df_to_model_dict(df, context_dict, tokenizer)
-
+print("\n")
+print("#"*20)
+print("Loading model")
+print("#"*20)
+print("\n")
 model = build_model()
 model.load_weights('weights.h5')
 
