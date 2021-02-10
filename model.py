@@ -40,8 +40,8 @@ def build_model():
     end_classifier = Dense(units=1, name="End_classifier")(dropout)
 
     # Flatteners
-    start_flat = Flatten()(start_classifier, name="Start_flattener")
-    end_flat = Flatten()(end_classifier, name="End_flattener")
+    start_flat = Flatten(name="Start_flattener")(start_classifier)
+    end_flat = Flatten(name="End_flattener")(end_classifier)
 
     # Activations
     start_softmax = Activation(

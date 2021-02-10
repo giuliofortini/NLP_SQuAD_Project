@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 from transformers import BertTokenizer
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from utils import create_output_dict, preprocess_df, print_squad_sample, from_df_to_model_dict
@@ -38,7 +37,7 @@ Input:
 
 Output:
 '''
-#train_dict, train_starts, train_ends = from_df_to_model_dict(df, context_dict)
+
 
 test = from_df_to_model_dict(df, context_dict, tokenizer)
 
