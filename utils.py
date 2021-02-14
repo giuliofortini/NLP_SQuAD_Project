@@ -168,26 +168,47 @@ def from_df_to_model_dict(df, context_dict, tokenizer, verbose=False):
 
 
 def most_similar_answer(context, answer):
-    answer = answer.replace(" .", ".")
-    answer = answer.replace(" ,", ",")
-    answer = answer.replace(" ;", ";")
-    answer = answer.replace(" :", ":")
-    answer = answer.replace(" '", "'")
+    original_answer = answer
+
     answer = answer.replace(" %", "%")
-    answer = answer.replace(" $", "$")
+
+    answer = answer.replace(" . ", "")
+    answer = answer.replace(" '", "")
+    answer = answer.replace(' "', '')
+    answer = answer.replace(" “", "")
+    answer = answer.replace(" ”", "")
+    answer = answer.replace(" , ", ",")
+    # answer = answer.replace(" ,", "")
+    answer = answer.replace(" ;", "")
+    answer = answer.replace(" - ", "-")
+    answer = answer.replace(" – ", "–")
+    answer = answer.replace(" ( ", "")
+    answer = answer.replace(" ) ", "")
+
+    context = context.replace(".", "")
+    context = context.replace(", ", " ")
+    # context = context.replace(",", "")
+    context = context.replace(";", "")
+    context = context.replace('"', '')
+    context = context.replace("“", "")
+    context = context.replace("”", "")
+    context = context.replace("'", " ")
+    context = context.replace("\"", "")
+    context = context.replace("(", "")
+    context = context.replace(")", "")
 
     answer_list = answer.split(" ")
     context_list = context.split(" ")
 
     for i, element in enumerate(context_list):
         lowered = []
-        for token in context_list[i:i+len(answer_list)]:
+        for token in context_list[i:i + len(answer_list)]:
             lowered.append(token.lower())
 
         if lowered == answer_list:
-            return True, ' '.join(context_list[i:i+len(answer_list)])
+            return True, ' '.join(context_list[i:i + len(answer_list)])
 
-    return False, answer
+    return False, original_answer
 
 
 def get_text_from_token_ids(context, tokenizer, start_id, end_id):
